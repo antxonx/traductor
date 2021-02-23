@@ -4,5 +4,7 @@ Proyecto realizado en C# con la configuración de netcoreapp3.1 en Visual Studio
 
 ## 1. Analizador Léxico
 
-Analizador léxico que identifica correctamente los tipos `Entero`, `Real` e `Identificador`.
+Se encuentra en la subcarpeta `/lexico`
+
+Analizador léxico que identifica correctamente los tipos **Entero**, **Real** e **Identificador**.
 El archivo `entry.txt` define los parametros de entrada a ser analizados.
