@@ -120,14 +120,7 @@ namespace Lexico
             {
                 throw (new LexTypeException(Analizer.DECIMAL_EXCEPTION_MSG));
             }
-            if (isReal)
-            {
-                return LexType.REAL;
-            }
-            else
-            {
-                return LexType.INTEGER;
-            }
+            return (isReal) ? LexType.REAL : LexType.INTEGER;
         }
 
         public LexType TextType()
