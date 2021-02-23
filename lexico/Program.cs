@@ -54,10 +54,7 @@ namespace Lexico
                 }
                 if (done)
                 {
-                    if (symbol != System.Environment.NewLine)
-                    {
-                        AnalizeSymbol(symbol, ref errors);
-                    }
+                    AnalizeSymbol(symbol, ref errors);
                     lastSymbol = symbol;
                     done = false;
                     symbol = "";
@@ -67,10 +64,7 @@ namespace Lexico
 
             if (symbol.Length > 0 && lastSymbol != symbol)
             {
-                if (symbol != System.Environment.NewLine)
-                {
-                    AnalizeSymbol(symbol, ref errors);
-                }
+                AnalizeSymbol(symbol, ref errors);
             }
             PrintTableLimit();
             Console.WriteLine("");
