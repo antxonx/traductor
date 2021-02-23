@@ -62,6 +62,7 @@ namespace Lexico
                 index++;
             }
             PrintTableLimit();
+            Console.WriteLine("");
             index = 1;
             foreach (string error in errors)
             {
