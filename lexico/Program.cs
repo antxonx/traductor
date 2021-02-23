@@ -11,31 +11,19 @@ namespace Lexico
 
         static void Main(string[] args)
         {
-            string[] dataSet = {
-                "901",
-                "90.1",
-                "67231t",
-                "0.31231",
-                "gwegfw",
-                "55.",
-                "33.333.3",
-                "4.5",
-                "swe23131",
-                "dwf231.31",
-                "asd_efw",
-                "aaa3333",
-                "else"
-            };
+            string entryPath = Environment.CurrentDirectory + "/entry.txt";
+            string file = System.IO.File.ReadAllText(entryPath);
             int index;
+            string symbol = "";
+            string lastSymbol = symbol;
+            bool done = false;
+            bool start = false;
             List<string> errors = new List<string>();
-            Analizer analizer = new Analizer();
+            file = file.Replace("\n", " ").Replace("\r", " ");
             PrintTableLimit();
-            /**
-             * start table
-             */
-            Console.WriteLine($"| {"Symbol", -LEFT_COL_SIZE} | {"Type", -RIGHT_COL_SIZE}|");
+            Console.WriteLine($"| {"Symbol",-LEFT_COL_SIZE} | {"Type",-RIGHT_COL_SIZE}|");
             Console.Write("|");
-            for(index = 0; index <= LEFT_COL_SIZE + 1; index++)
+            for (index = 0; index <= LEFT_COL_SIZE + 1; index++)
             {
                 Console.Write("-");
             }
@@ -44,22 +32,45 @@ namespace Lexico
             {
                 Console.Write("-");
             }
-            /**
-             */
             Console.WriteLine("|");
             index = 0;
-            while (index < dataSet.Length)
+            while (index < file.Length)
             {
-                try
+                if (file[index] == ' ')
                 {
-                    analizer.SetNewSymbol(dataSet[index]);
-                    Console.WriteLine($"| {analizer.GetSymbol(), -LEFT_COL_SIZE} | {analizer.GetLexType(), -RIGHT_COL_SIZE}|");
-                } catch(LexTypeException e)
+                    if (start)
+                    {
+                        done = true;
+                        start = false;
+                    }
+                }
+                else
                 {
-                    errors.Add(e.Message);
-                    Console.WriteLine($"| {analizer.GetSymbol(), -LEFT_COL_SIZE} | {"!--ERROR " + errors.Count + "--!", -RIGHT_COL_SIZE}|");
+                    if (!start)
+                    {
+                        start = true;
+                    }
+                    symbol += file[index];
+                }
+                if (done)
+                {
+                    if (symbol != System.Environment.NewLine)
+                    {
+                        AnalizeSymbol(symbol, ref errors);
+                    }
+                    lastSymbol = symbol;
+                    done = false;
+                    symbol = "";
                 }
                 index++;
+            }
+
+            if (symbol.Length > 0 && lastSymbol != symbol)
+            {
+                if (symbol != System.Environment.NewLine)
+                {
+                    AnalizeSymbol(symbol, ref errors);
+                }
             }
             PrintTableLimit();
             Console.WriteLine("");
@@ -79,6 +90,23 @@ namespace Lexico
                 Console.Write("-");
             }
             Console.WriteLine("");
+        }
+
+        public static void AnalizeSymbol(in string symbol, ref List<string> errors)
+        {
+            Analizer analizer = new Analizer();
+
+            try
+            {
+                analizer.SetNewSymbol(symbol);
+                Console.WriteLine($"| {analizer.GetSymbol(),-LEFT_COL_SIZE} | {analizer.GetLexType(),-RIGHT_COL_SIZE}|");
+            }
+            catch (LexTypeException e)
+            {
+                errors.Add(e.Message);
+                Console.WriteLine($"| {analizer.GetSymbol(),-LEFT_COL_SIZE} | {"!--ERROR " + errors.Count + "--!",-RIGHT_COL_SIZE}|");
+            }
+
         }
     }
 }

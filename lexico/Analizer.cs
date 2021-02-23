@@ -50,7 +50,8 @@ namespace Lexico
             {
                 this.index++;
                 return this.GetActualChar();
-            } else
+            }
+            else
             {
                 return Analizer.EMPTY_CHAR;
             }
@@ -71,14 +72,16 @@ namespace Lexico
             if (Analizer.DIGIT_CHARSET.Contains(this.symbol[0]))
             {
                 return this.NumberType();
-            } else if (Analizer.LETTER_CHARSET.Contains(this.symbol[0]))
+            }
+            else if (Analizer.LETTER_CHARSET.Contains(this.symbol[0]))
             {
                 return this.TextType();
-            } else
+            }
+            else
             {
                 return LexType.UNDEFINED;
             }
-            
+
         }
 
         public LexType NumberType()
@@ -86,38 +89,42 @@ namespace Lexico
             char analized;
             bool realActive = false;
             bool isReal = false;
-            while(!this.IsDone())
+            while (!this.IsDone())
             {
                 analized = this.NextChar();
-                if(!Analizer.DIGIT_CHARSET.Contains(analized))
+                if (!Analizer.DIGIT_CHARSET.Contains(analized))
                 {
                     if (analized == Analizer.DECIMAL_POINT_CHAR)
                     {
-                        if(!isReal)
+                        if (!isReal)
                         {
                             realActive = true;
                             isReal = true;
-                        } else
+                        }
+                        else
                         {
                             throw (new LexTypeException(Analizer.DECIMAL_EXCEPTION_MSG));
                         }
-                    } else
+                    }
+                    else
                     {
                         throw (new LexTypeException(Analizer.DECIMAL_EXCEPTION_MSG));
                     }
-                } else
+                }
+                else
                 {
                     realActive = false;
                 }
             }
-            if(realActive)
+            if (realActive)
             {
                 throw (new LexTypeException(Analizer.DECIMAL_EXCEPTION_MSG));
             }
-            if(isReal)
+            if (isReal)
             {
                 return LexType.REAL;
-            } else
+            }
+            else
             {
                 return LexType.INTEGER;
             }
@@ -126,18 +133,19 @@ namespace Lexico
         public LexType TextType()
         {
             char analized;
-            while(!this.IsDone())
+            while (!this.IsDone())
             {
                 analized = this.NextChar();
-                if(this.index == 0)
+                if (this.index == 0)
                 {
                     if (!Analizer.LETTER_CHARSET.Contains(analized))
                     {
                         throw (new LexTypeException(Analizer.IDENTIFIER_EXCEPTION_MSG));
                     }
-                } else
+                }
+                else
                 {
-                    if(!Analizer.LETTER_CHARSET.Contains(analized) && !Analizer.DIGIT_CHARSET.Contains(analized))
+                    if (!Analizer.LETTER_CHARSET.Contains(analized) && !Analizer.DIGIT_CHARSET.Contains(analized))
                     {
                         throw (new LexTypeException(Analizer.IDENTIFIER_EXCEPTION_MSG));
                     }
@@ -146,5 +154,5 @@ namespace Lexico
             return LexType.IDENTIFIER;
         }
 
-    }    
+    }
 }
