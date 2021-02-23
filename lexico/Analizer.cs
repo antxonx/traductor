@@ -16,6 +16,8 @@ namespace Lexico
 
         private static readonly string DECIMAL_EXCEPTION_MSG = "Un valor numérico sólo debe incluir digitos y un punto decimal seguido de números -> [0-9]+(.[0-9]+)";
 
+        private static readonly string IDENTIFIER_EXCEPTION_MSG = "Un identificador se conforma por una letra, seguido de digitos o letras opcionales -> [a-zA-Z]([a-zA-Z]|[0-9])*";
+
         private string symbol;
 
         private int index;
@@ -123,7 +125,25 @@ namespace Lexico
 
         public LexType TextType()
         {
-            return LexType.UNDEFINED;
+            char analized;
+            while(!this.IsDone())
+            {
+                analized = this.NextChar();
+                if(this.index == 0)
+                {
+                    if (!Analizer.LETTER_CHARSET.Contains(analized))
+                    {
+                        throw (new LexTypeException(Analizer.IDENTIFIER_EXCEPTION_MSG));
+                    }
+                } else
+                {
+                    if(!Analizer.LETTER_CHARSET.Contains(analized) && !Analizer.DIGIT_CHARSET.Contains(analized))
+                    {
+                        throw (new LexTypeException(Analizer.IDENTIFIER_EXCEPTION_MSG));
+                    }
+                }
+            }
+            return LexType.IDENTIFIER;
         }
 
     }    

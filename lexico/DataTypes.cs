@@ -7,10 +7,10 @@ namespace Lexico
     public enum LexType
     {
         UNDEFINED,
-        DIGIT, 
-        INTEGER, 
-        REAL, 
-        LETTER, 
+        DIGIT,
+        INTEGER,
+        REAL,
+        LETTER,
         IDENTIFIER
     }
 }
