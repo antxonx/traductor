@@ -11,14 +11,21 @@ namespace Lexico
 
         static void Main(string[] args)
         {
-            string entryPath = Environment.CurrentDirectory + "/entry.txt";
-            string file = System.IO.File.ReadAllText(entryPath);
+            string entryPath, file;
             int index;
             string symbol = "";
             string lastSymbol = symbol;
             bool done = false;
             bool start = false;
             List<string> errors = new List<string>();
+
+            if(args.Length == 0)
+            {
+                Console.WriteLine("Des especificar el nombre del archivo al ejecutar el programa");
+                return;
+            }
+            entryPath = Environment.CurrentDirectory + "/" + args[0];
+            file = System.IO.File.ReadAllText(entryPath);
             file = file.Replace("\n", " ").Replace("\r", " ");
             PrintTableLimit();
             Console.WriteLine($"| {"Symbol",-LEFT_COL_SIZE} | {"Type",-RIGHT_COL_SIZE}|");
