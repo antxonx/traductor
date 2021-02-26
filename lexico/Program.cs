@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace Lexico
 {
-    class Program
+    internal class Program
     {
         public const int LEFT_COL_SIZE = 30;
 
         public const int RIGHT_COL_SIZE = 30;
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             string entryPath, file;
             int index;

@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Lexico
+﻿namespace Lexico
 {
-    class Analizer
+    internal class Analizer
     {
         public static readonly string DIGIT_CHARSET = "0123456789";
 
@@ -83,6 +79,7 @@ namespace Lexico
                         return this.GetNextState(StatePos.Q4, this.NextChar());
                     }
                     break;
+
                 case StatePos.Q1:
                     if (entry.Equals(Analizer.NULL_CHAR))
                     {
@@ -100,12 +97,14 @@ namespace Lexico
                         }
                     }
                     break;
+
                 case StatePos.Q2:
                     if (Analizer.DIGIT_CHARSET.Contains(entry))
                     {
                         return this.GetNextState(StatePos.Q3, this.NextChar());
                     }
                     break;
+
                 case StatePos.Q3:
                     if (entry.Equals(Analizer.NULL_CHAR))
                     {
@@ -119,6 +118,7 @@ namespace Lexico
                         }
                     }
                     break;
+
                 case StatePos.Q4:
                     if (entry.Equals(Analizer.NULL_CHAR))
                     {
@@ -139,6 +139,5 @@ namespace Lexico
             }
             return LexType.UNDEFINED;
         }
-
     }
 }
