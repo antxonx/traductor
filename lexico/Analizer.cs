@@ -41,7 +41,8 @@ namespace Lexico
 
         public char GetActualChar()
         {
-            return this.symbol[this.index];
+            int index = (this.index < 0) ? 0 : this.index;
+            return this.symbol[index];
         }
 
         public char NextChar()
@@ -69,82 +70,12 @@ namespace Lexico
 
         public LexType GetLexType()
         {
-            if (Analizer.DIGIT_CHARSET.Contains(this.symbol[0]))
-            {
-                return this.NumberType();
-            }
-            else if (Analizer.LETTER_CHARSET.Contains(this.symbol[0]))
-            {
-                return this.TextType();
-            }
-            else
-            {
-                return LexType.UNDEFINED;
-            }
-
+            return this.GetNextState(StatePos.Q0, this.NextChar());
         }
 
-        public LexType NumberType()
+        public LexType GetNextState(in StatePos state, in char entry)
         {
-            char analized;
-            bool realActive = false;
-            bool isReal = false;
-            while (!this.IsDone())
-            {
-                analized = this.NextChar();
-                if (!Analizer.DIGIT_CHARSET.Contains(analized))
-                {
-                    if (analized == Analizer.DECIMAL_POINT_CHAR)
-                    {
-                        if (!isReal)
-                        {
-                            realActive = true;
-                            isReal = true;
-                        }
-                        else
-                        {
-                            throw (new LexTypeException(Analizer.DECIMAL_EXCEPTION_MSG));
-                        }
-                    }
-                    else
-                    {
-                        throw (new LexTypeException(Analizer.DECIMAL_EXCEPTION_MSG));
-                    }
-                }
-                else
-                {
-                    realActive = false;
-                }
-            }
-            if (realActive)
-            {
-                throw (new LexTypeException(Analizer.DECIMAL_EXCEPTION_MSG));
-            }
-            return (isReal) ? LexType.REAL : LexType.INTEGER;
-        }
-
-        public LexType TextType()
-        {
-            char analized;
-            while (!this.IsDone())
-            {
-                analized = this.NextChar();
-                if (this.index == 0)
-                {
-                    if (!Analizer.LETTER_CHARSET.Contains(analized))
-                    {
-                        throw (new LexTypeException(Analizer.IDENTIFIER_EXCEPTION_MSG));
-                    }
-                }
-                else
-                {
-                    if (!Analizer.LETTER_CHARSET.Contains(analized) && !Analizer.DIGIT_CHARSET.Contains(analized))
-                    {
-                        throw (new LexTypeException(Analizer.IDENTIFIER_EXCEPTION_MSG));
-                    }
-                }
-            }
-            return LexType.IDENTIFIER;
+            return LexType.UNDEFINED;
         }
 
     }
