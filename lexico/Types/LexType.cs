@@ -6,11 +6,18 @@ namespace Lexico
 {
     public enum LexType
     {
-        UNDEFINED,
-        DIGIT,
         INTEGER,
         REAL,
-        LETTER,
-        IDENTIFIER
+        IDENTIFIER,
+        UNDEFINED,
+    }
+
+    enum StatePos
+    {
+        Q0,
+        Q1, // aceptación
+        Q2,
+        Q3, // aceptación
+        Q4  // aceptación
     }
 }

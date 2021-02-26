@@ -8,15 +8,11 @@ namespace Lexico
     {
         public static readonly string DIGIT_CHARSET = "0123456789";
 
-        public static readonly string LETTER_CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        public static readonly string TEXT_CHARSET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-        public static readonly char EMPTY_CHAR = (char)0;
+        public static readonly char NULL_CHAR = (char)0;
 
         public static readonly char DECIMAL_POINT_CHAR = '.';
-
-        private static readonly string DECIMAL_EXCEPTION_MSG = "Un valor numérico sólo debe incluir digitos y un punto decimal seguido de números -> [0-9]+(.[0-9]+)";
-
-        private static readonly string IDENTIFIER_EXCEPTION_MSG = "Un identificador se conforma por una letra, seguido de digitos o letras opcionales -> [a-zA-Z]([a-zA-Z]|[0-9])*";
 
         private string symbol;
 
@@ -41,7 +37,8 @@ namespace Lexico
 
         public char GetActualChar()
         {
-            return this.symbol[this.index];
+            int index = (this.index < 0) ? 0 : this.index;
+            return this.symbol[index];
         }
 
         public char NextChar()
@@ -53,7 +50,7 @@ namespace Lexico
             }
             else
             {
-                return Analizer.EMPTY_CHAR;
+                return Analizer.NULL_CHAR;
             }
         }
 
@@ -69,82 +66,78 @@ namespace Lexico
 
         public LexType GetLexType()
         {
-            if (Analizer.DIGIT_CHARSET.Contains(this.symbol[0]))
-            {
-                return this.NumberType();
-            }
-            else if (Analizer.LETTER_CHARSET.Contains(this.symbol[0]))
-            {
-                return this.TextType();
-            }
-            else
-            {
-                return LexType.UNDEFINED;
-            }
-
+            return this.GetNextState(StatePos.Q0, this.NextChar());
         }
 
-        public LexType NumberType()
+        public LexType GetNextState(in StatePos state, in char entry)
         {
-            char analized;
-            bool realActive = false;
-            bool isReal = false;
-            while (!this.IsDone())
+            switch (state)
             {
-                analized = this.NextChar();
-                if (!Analizer.DIGIT_CHARSET.Contains(analized))
-                {
-                    if (analized == Analizer.DECIMAL_POINT_CHAR)
+                case StatePos.Q0:
+                    if (Analizer.DIGIT_CHARSET.Contains(entry))
                     {
-                        if (!isReal)
-                        {
-                            realActive = true;
-                            isReal = true;
-                        }
-                        else
-                        {
-                            throw (new LexTypeException(Analizer.DECIMAL_EXCEPTION_MSG));
-                        }
+                        return this.GetNextState(StatePos.Q1, this.NextChar());
+                    }
+                    else if (Analizer.TEXT_CHARSET.Contains(entry))
+                    {
+                        return this.GetNextState(StatePos.Q4, this.NextChar());
+                    }
+                    break;
+                case StatePos.Q1:
+                    if (entry.Equals(Analizer.NULL_CHAR))
+                    {
+                        return LexType.INTEGER;
                     }
                     else
                     {
-                        throw (new LexTypeException(Analizer.DECIMAL_EXCEPTION_MSG));
+                        if (Analizer.DIGIT_CHARSET.Contains(entry))
+                        {
+                            return this.GetNextState(StatePos.Q1, this.NextChar());
+                        }
+                        else if (entry.Equals('.'))
+                        {
+                            return this.GetNextState(StatePos.Q2, this.NextChar());
+                        }
                     }
-                }
-                else
-                {
-                    realActive = false;
-                }
-            }
-            if (realActive)
-            {
-                throw (new LexTypeException(Analizer.DECIMAL_EXCEPTION_MSG));
-            }
-            return (isReal) ? LexType.REAL : LexType.INTEGER;
-        }
-
-        public LexType TextType()
-        {
-            char analized;
-            while (!this.IsDone())
-            {
-                analized = this.NextChar();
-                if (this.index == 0)
-                {
-                    if (!Analizer.LETTER_CHARSET.Contains(analized))
+                    break;
+                case StatePos.Q2:
+                    if (Analizer.DIGIT_CHARSET.Contains(entry))
                     {
-                        throw (new LexTypeException(Analizer.IDENTIFIER_EXCEPTION_MSG));
+                        return this.GetNextState(StatePos.Q3, this.NextChar());
                     }
-                }
-                else
-                {
-                    if (!Analizer.LETTER_CHARSET.Contains(analized) && !Analizer.DIGIT_CHARSET.Contains(analized))
+                    break;
+                case StatePos.Q3:
+                    if (entry.Equals(Analizer.NULL_CHAR))
                     {
-                        throw (new LexTypeException(Analizer.IDENTIFIER_EXCEPTION_MSG));
+                        return LexType.REAL;
                     }
-                }
+                    else
+                    {
+                        if (Analizer.DIGIT_CHARSET.Contains(entry))
+                        {
+                            return this.GetNextState(StatePos.Q3, this.NextChar());
+                        }
+                    }
+                    break;
+                case StatePos.Q4:
+                    if (entry.Equals(Analizer.NULL_CHAR))
+                    {
+                        return LexType.IDENTIFIER;
+                    }
+                    else
+                    {
+                        if (Analizer.DIGIT_CHARSET.Contains(entry))
+                        {
+                            return this.GetNextState(StatePos.Q4, this.NextChar());
+                        }
+                        else if (Analizer.TEXT_CHARSET.Contains(entry))
+                        {
+                            return this.GetNextState(StatePos.Q4, this.NextChar());
+                        }
+                    }
+                    break;
             }
-            return LexType.IDENTIFIER;
+            return LexType.UNDEFINED;
         }
 
     }
