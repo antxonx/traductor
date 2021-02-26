@@ -17,9 +17,8 @@ namespace Lexico
             string lastSymbol = symbol;
             bool done = false;
             bool start = false;
-            List<string> errors = new List<string>();
 
-            if(args.Length == 0)
+            if (args.Length == 0)
             {
                 Console.WriteLine("Des especificar el nombre del archivo al ejecutar el programa");
                 return;
@@ -61,7 +60,7 @@ namespace Lexico
                 }
                 if (done)
                 {
-                    AnalizeSymbol(symbol, ref errors);
+                    AnalizeSymbol(symbol);
                     lastSymbol = symbol;
                     done = false;
                     symbol = "";
@@ -71,16 +70,10 @@ namespace Lexico
 
             if (symbol.Length > 0 && lastSymbol != symbol)
             {
-                AnalizeSymbol(symbol, ref errors);
+                AnalizeSymbol(symbol);
             }
             PrintTableLimit();
             Console.WriteLine("");
-            index = 1;
-            foreach (string error in errors)
-            {
-                Console.WriteLine($"ERROR {index}: {error}");
-                index++;
-            }
         }
 
         public static void PrintTableLimit()
@@ -93,21 +86,11 @@ namespace Lexico
             Console.WriteLine("");
         }
 
-        public static void AnalizeSymbol(in string symbol, ref List<string> errors)
+        public static void AnalizeSymbol(in string symbol)
         {
             Analizer analizer = new Analizer();
-
-            try
-            {
-                analizer.SetNewSymbol(symbol);
-                Console.WriteLine($"| {analizer.GetSymbol(),-LEFT_COL_SIZE} | {analizer.GetLexType(),-RIGHT_COL_SIZE}|");
-            }
-            catch (LexTypeException e)
-            {
-                errors.Add(e.Message);
-                Console.WriteLine($"| {analizer.GetSymbol(),-LEFT_COL_SIZE} | {"!--ERROR " + errors.Count + "--!",-RIGHT_COL_SIZE}|");
-            }
-
+            analizer.SetNewSymbol(symbol);
+            Console.WriteLine($"| {analizer.GetSymbol(),-LEFT_COL_SIZE} | {analizer.GetLexType(),-RIGHT_COL_SIZE}|");
         }
     }
 }
