@@ -14,10 +14,6 @@ namespace Lexico
 
         public static readonly char DECIMAL_POINT_CHAR = '.';
 
-        private static readonly string DECIMAL_EXCEPTION_MSG = "Un valor numérico sólo debe incluir digitos y un punto decimal seguido de números -> [0-9]+(.[0-9]+)";
-
-        private static readonly string IDENTIFIER_EXCEPTION_MSG = "Un identificador se conforma por una letra, seguido de digitos o letras opcionales -> [a-zA-Z]([a-zA-Z]|[0-9])*";
-
         private string symbol;
 
         private int index;
