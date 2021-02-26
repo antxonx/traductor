@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Lexico
+﻿namespace Lexico
 {
     public enum LexType
     {
@@ -12,7 +8,7 @@ namespace Lexico
         UNDEFINED,
     }
 
-    enum StatePos
+    internal enum StatePos
     {
         Q0,
         Q1, // aceptación
