@@ -37,11 +37,26 @@
     /// </summary>
     internal enum StatePos
     {
-        Q0,
-        Q1,
-        Q2,
-        Q3,
-        Q4
+        START,
+        DECIMAL_POINT,
+        START_STRING,
+        STRING_FILL,
+        ACCEPT_NUMBER,
+        ACCEPT_REAL,
+        ACCEPT_CONTROL,
+        ACCEPT_TYPE,
+        ACCEPT_INDENTIFIER,
+        ACCEPT_STRING,
+        ACCEPT_PAIR_PAR,
+        ACCEPT_OP_COMP_REL,
+        ACCEPT_OP_MATH_ADD,
+        ACCEPT_OP_MATH_MUL,
+        ACCEPT_OP_LOGIC_OR,
+        ACCEPT_OP_LOGIC_AND,
+        ACCEPT_PAIR_BR,
+        ACCEPT_OP_COMP_EQ,
+        ACCEPT_OP_LOGIC_NOT,
+        ACCEPT_ASIGNMENT,
     }
 
     /// <summary>
@@ -57,7 +72,7 @@
 
         public static readonly string[] RES_CONTROL = { "if", "else", "while", "return" };
 
-        public static readonly string[] PAIR_STRING = { "\"", "\"" };
+        public static readonly string STRING_DELIMITER = "\"";
 
         public static readonly string[] PAIR_PAR = { "(", ")" };
 

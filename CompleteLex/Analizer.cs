@@ -60,10 +60,12 @@
             return this.symbol;
         }
 
+        /*
         public LexType GetLexType()
         {
             return this.GetNextState(StatePos.Q0, this.NextChar());
         }
+
 
         public LexType GetNextState(in StatePos state, in char entry)
         {
@@ -138,6 +140,6 @@
                     break;
             }
             return LexType.UNDEFINED;
-        }
+        } */
     }
 }
