@@ -8,6 +8,8 @@ namespace Lexico
 
         public const int RIGHT_COL_SIZE = 30;
 
+        public const int MIDDLE_COL_SIZE = 5;
+
         private static void Main(string[] args)
         {
             string entryPath, file;
@@ -26,23 +28,28 @@ namespace Lexico
             analizer = new Analizer(file.Replace("\n", " ").Replace("\r", " "));
             PrintTableLimit();
 
-            Console.WriteLine($"| {"Symbol",-LEFT_COL_SIZE} | {"Type",-RIGHT_COL_SIZE}|");
+            Console.WriteLine($"| {"Symbol",-LEFT_COL_SIZE} | {"Id",-MIDDLE_COL_SIZE} | {"Type",-RIGHT_COL_SIZE} |");
             Console.Write("|");
-            for (index = 0; index <= LEFT_COL_SIZE + 1; index++)
+            for (index = 0; index <= LEFT_COL_SIZE; index++)
             {
                 Console.Write("-");
             }
-            Console.Write("|");
+            Console.Write("-|");
+            for (index = 0; index <= MIDDLE_COL_SIZE; index++)
+            {
+                Console.Write("-");
+            }
+            Console.Write("-|");
             for (index = 0; index <= RIGHT_COL_SIZE; index++)
             {
                 Console.Write("-");
             }
-            Console.WriteLine("|");
+            Console.WriteLine("-|");
             while (!analizer.IsDone())
             {
                 lexType = analizer.GetNextType();
                 symbol = analizer.GetRetSymbol();
-                Console.WriteLine($"| {symbol,-LEFT_COL_SIZE} | {lexType,-RIGHT_COL_SIZE}|");
+                Console.WriteLine($"| {symbol,-LEFT_COL_SIZE} | {(int)lexType,MIDDLE_COL_SIZE} | {lexType,-RIGHT_COL_SIZE} |");
             }
             PrintTableLimit();
         }
@@ -50,7 +57,7 @@ namespace Lexico
         public static void PrintTableLimit()
         {
             int index;
-            for (index = 0; index <= RIGHT_COL_SIZE + LEFT_COL_SIZE + 5; index++)
+            for (index = 0; index <= RIGHT_COL_SIZE + MIDDLE_COL_SIZE + LEFT_COL_SIZE + 9; index++)
             {
                 Console.Write("-");
             }
