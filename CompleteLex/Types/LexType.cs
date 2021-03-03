@@ -74,13 +74,13 @@
 
         public static readonly string STRING_DELIMITER = "\"";
 
-        public static readonly string[] PAIR_PAR = { "(", ")" };
+        public static readonly string PAIR_PAR_CHARSET = "()";
 
-        public static readonly string[] PAIR_BR = { "{", "}" };
+        public static readonly string PAIR_BR_CHARSET = "{}";
 
-        public static readonly string[] OP_MATH_ADD = { "+", "-" };
+        public static readonly string OP_MATH_ADD_CHARTSET = "+-";
 
-        public static readonly string[] OP_MATH_MUL = { "*", "/" };
+        public static readonly string OP_MATH_MUL_CHARSET = "*/";
 
         public static readonly string[] OP_COMP_REL = { "<", "<=", ">=", ">" };
 
@@ -100,5 +100,11 @@
 
         public static readonly string END_OF_FILE = "$";
 
+    }
+
+    internal class LexTypeComplex
+    {
+        public static readonly LexType[] PAIR_PAR = { LexType.OPEN_PAR, LexType.CLOSE_PAR };
+        public static readonly LexType[] PAIR_BR = { LexType.OPEN_BR, LexType.CLOSE_BR };
     }
 }
