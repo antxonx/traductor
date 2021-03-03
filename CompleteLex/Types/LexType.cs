@@ -55,8 +55,6 @@
 
         public static readonly string OP_MATH_MUL_CHARSET = "*/";
 
-        //public static readonly string[] OP_COMP_REL = { "<", "<=", ">=", ">" };
-
         public static readonly string OP_COMP_REL_START_CHARSET = "<>";
 
         public static readonly string OP_LOGIC_OR = "||";

@@ -129,6 +129,26 @@
             }
         }
 
+        private LexType AcceptLogicNotOrCompEq(in char entry)
+        {
+            if(Symbol.ASIGNMENT.Equals(entry))
+            {
+                this.Continue(entry);
+                return LexType.OP_COMP_EQ;
+            }
+            return LexType.OP_LOGIC_NOT;
+        }
+
+        private LexType AcceptAssignmentOrCompEq(in char entry)
+        {
+            if (Symbol.ASIGNMENT.Equals(entry))
+            {
+                this.Continue(entry);
+                return LexType.OP_COMP_EQ;
+            }
+            return LexType.ASIGNMENT;
+        }
+
         private LexType Start(in char entry)
         {
             this.symbol = "";
@@ -183,13 +203,11 @@
             }
             else if (entry.Equals(Symbol.ASIGNMENT))
             {
-                this.Continue(entry);
-                return LexType.ASIGNMENT;
+                return this.AcceptAssignmentOrCompEq(this.Continue(entry));
             }
             else if (entry.Equals(Symbol.OP_LOGIC_NOT))
             {
-                this.Continue(entry);
-                return LexType.OP_LOGIC_NOT;
+                return this.AcceptLogicNotOrCompEq(this.Continue(entry));
             }
             else if (entry.Equals(Symbol.SPACE_CHAR))
             {
