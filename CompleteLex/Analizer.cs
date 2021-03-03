@@ -84,6 +84,10 @@
                 this.Continue(entry);
                 return LexTypeComplex.PAIR_BR[aux];
             }
+            else if(Symbol.OP_COMP_REL_START_CHARSET.Contains(entry))
+            {
+                return this.OpCompRelAccept(this.Continue(entry));
+            }
             else if (entry.Equals(Symbol.SEMI_COLON))
             {
                 this.Continue(entry);
@@ -117,7 +121,8 @@
             if (Symbol.DIGIT_CHARSET.Contains(this.GetActualChar()))
             {
                 return this.AcceptInteger(this.Continue(entry));
-            } else if(this.GetActualChar().Equals('.'))
+            }
+            else if (this.GetActualChar().Equals('.'))
             {
                 return this.DecimalPoint(this.Continue(entry));
             }
@@ -148,11 +153,20 @@
             {
                 return this.AcceptId(this.Continue(entry));
             }
-            else if(Symbol.TEXT_CHARSET.Contains(entry))
+            else if (Symbol.TEXT_CHARSET.Contains(entry))
             {
                 return this.AcceptId(this.Continue(entry));
             }
             return LexType.IDENTIFIER;
+        }
+
+        private LexType OpCompRelAccept(in char entry)
+        {
+            if(Symbol.ASIGNMENT.Equals(entry))
+            {
+                this.Continue(entry);
+            }
+            return LexType.OP_COMP_REL;
         }
     }
 }

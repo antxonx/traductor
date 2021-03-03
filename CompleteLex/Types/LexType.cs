@@ -33,33 +33,6 @@
     }
 
     /// <summary>
-    /// Estados del autoamata
-    /// </summary>
-    internal enum StatePos
-    {
-        START,
-        DECIMAL_POINT,
-        START_STRING,
-        STRING_FILL,
-        ACCEPT_NUMBER,
-        ACCEPT_REAL,
-        ACCEPT_CONTROL,
-        ACCEPT_TYPE,
-        ACCEPT_INDENTIFIER,
-        ACCEPT_STRING,
-        ACCEPT_PAIR_PAR,
-        ACCEPT_OP_COMP_REL,
-        ACCEPT_OP_MATH_ADD,
-        ACCEPT_OP_MATH_MUL,
-        ACCEPT_OP_LOGIC_OR,
-        ACCEPT_OP_LOGIC_AND,
-        ACCEPT_PAIR_BR,
-        ACCEPT_OP_COMP_EQ,
-        ACCEPT_OP_LOGIC_NOT,
-        ACCEPT_ASIGNMENT,
-    }
-
-    /// <summary>
     /// Símbolos disponibles
     /// </summary>
     internal class Symbol
@@ -82,7 +55,9 @@
 
         public static readonly string OP_MATH_MUL_CHARSET = "*/";
 
-        public static readonly string[] OP_COMP_REL = { "<", "<=", ">=", ">" };
+        //public static readonly string[] OP_COMP_REL = { "<", "<=", ">=", ">" };
+
+        public static readonly string OP_COMP_REL_START_CHARSET = "<>";
 
         public static readonly string OP_LOGIC_OR = "||";
 
@@ -101,7 +76,6 @@
         public static readonly char SPACE_CHAR = ' ';
 
         public static readonly char END_OF_FILE = '$';
-
     }
 
     internal class LexTypeComplex
