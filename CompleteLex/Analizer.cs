@@ -112,6 +112,23 @@
             return LexType.OP_COMP_REL;
         }
 
+        private LexType StringAccept(in char entry)
+        {
+            if(Symbol.STRING_DELIMITER.Equals(entry))
+            {
+                this.Continue(entry);
+                return LexType.STRING;
+            } 
+            else if(entry.Equals(Analizer.NULL_CHAR))
+            {
+                this.Continue(entry);
+                return LexType.UNDEFINED;
+            } 
+            else {
+                return this.StringAccept(this.Continue(entry));
+            }
+        }
+
         private LexType Start(in char entry)
         {
             this.symbol = "";
@@ -140,6 +157,10 @@
             {
                 this.Continue(entry);
                 return LexType.OP_MATH_ADD;
+            }
+            else if (Symbol.STRING_DELIMITER.Equals(entry))
+            {
+                return this.StringAccept(this.Continue(entry));
             }
             else if (Symbol.OP_MATH_MUL_CHARSET.Contains(entry))
             {
