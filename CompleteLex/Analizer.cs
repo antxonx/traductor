@@ -17,12 +17,78 @@
             this.symbol = "";
         }
 
+        public char Continue(in char entry)
+        {
+            this.symbol += entry;
+            this.index++;
+            return this.GetActualChar();
+        }
+
+        public LexType GetNextType()
+        {
+            return this.Start(this.GetActualChar());
+        }
+
+        public string GetRetSymbol()
+        {
+            return this.symbol;
+        }
+
+        public bool IsDone()
+        {
+            return this.index >= this.file.Length;
+        }
+
         public Analizer SetFile(in string file)
         {
             this.file = file;
             this.index = 0;
             this.symbol = "";
             return this;
+        }
+
+        private LexType AcceptId(in char entry)
+        {
+            if (Symbol.DIGIT_CHARSET.Contains(entry))
+            {
+                return this.AcceptId(this.Continue(entry));
+            }
+            else if (Symbol.TEXT_CHARSET.Contains(entry))
+            {
+                return this.AcceptId(this.Continue(entry));
+            }
+            return LexType.IDENTIFIER;
+        }
+
+        private LexType AcceptInteger(in char entry)
+        {
+            if (Symbol.DIGIT_CHARSET.Contains(this.GetActualChar()))
+            {
+                return this.AcceptInteger(this.Continue(entry));
+            }
+            else if (this.GetActualChar().Equals('.'))
+            {
+                return this.DecimalPoint(this.Continue(entry));
+            }
+            return LexType.INTEGER;
+        }
+
+        private LexType AcceptReal(in char entry)
+        {
+            if (Symbol.DIGIT_CHARSET.Contains(entry))
+            {
+                return this.AcceptReal(this.Continue(entry));
+            }
+            return LexType.REAL;
+        }
+
+        private LexType DecimalPoint(in char entry)
+        {
+            if (Symbol.DIGIT_CHARSET.Contains(entry))
+            {
+                return this.AcceptReal(this.Continue(entry));
+            }
+            return LexType.UNDEFINED;
         }
 
         private char GetActualChar()
@@ -37,27 +103,13 @@
                 return this.file[index];
             }
         }
-
-        public string GetRetSymbol()
+        private LexType OpCompRelAccept(in char entry)
         {
-            return this.symbol;
-        }
-
-        public LexType GetNextType()
-        {
-            return this.Start(this.GetActualChar());
-        }
-
-        public bool IsDone()
-        {
-            return this.index >= this.file.Length;
-        }
-
-        public char Continue(in char entry)
-        {
-            this.symbol += entry;
-            this.index++;
-            return this.GetActualChar();
+            if (Symbol.ASIGNMENT.Equals(entry))
+            {
+                this.Continue(entry);
+            }
+            return LexType.OP_COMP_REL;
         }
 
         private LexType Start(in char entry)
@@ -124,59 +176,6 @@
             }
             this.Continue(entry);
             return LexType.UNDEFINED;
-        }
-
-        private LexType AcceptInteger(in char entry)
-        {
-            if (Symbol.DIGIT_CHARSET.Contains(this.GetActualChar()))
-            {
-                return this.AcceptInteger(this.Continue(entry));
-            }
-            else if (this.GetActualChar().Equals('.'))
-            {
-                return this.DecimalPoint(this.Continue(entry));
-            }
-            return LexType.INTEGER;
-        }
-
-        private LexType DecimalPoint(in char entry)
-        {
-            if (Symbol.DIGIT_CHARSET.Contains(entry))
-            {
-                return this.AcceptReal(this.Continue(entry));
-            }
-            return LexType.UNDEFINED;
-        }
-
-        private LexType AcceptReal(in char entry)
-        {
-            if (Symbol.DIGIT_CHARSET.Contains(entry))
-            {
-                return this.AcceptReal(this.Continue(entry));
-            }
-            return LexType.REAL;
-        }
-
-        private LexType AcceptId(in char entry)
-        {
-            if (Symbol.DIGIT_CHARSET.Contains(entry))
-            {
-                return this.AcceptId(this.Continue(entry));
-            }
-            else if (Symbol.TEXT_CHARSET.Contains(entry))
-            {
-                return this.AcceptId(this.Continue(entry));
-            }
-            return LexType.IDENTIFIER;
-        }
-
-        private LexType OpCompRelAccept(in char entry)
-        {
-            if(Symbol.ASIGNMENT.Equals(entry))
-            {
-                this.Continue(entry);
-            }
-            return LexType.OP_COMP_REL;
         }
     }
 }
