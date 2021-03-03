@@ -84,6 +84,16 @@
                 this.Continue(entry);
                 return LexTypeComplex.PAIR_BR[aux];
             }
+            else if (Symbol.OP_MATH_ADD_CHARTSET.Contains(entry))
+            {
+                this.Continue(entry);
+                return LexType.OP_MATH_ADD;
+            }
+            else if (Symbol.OP_MATH_MUL_CHARSET.Contains(entry))
+            {
+                this.Continue(entry);
+                return LexType.OP_MATH_MUL;
+            }
             else if(Symbol.OP_COMP_REL_START_CHARSET.Contains(entry))
             {
                 return this.OpCompRelAccept(this.Continue(entry));
