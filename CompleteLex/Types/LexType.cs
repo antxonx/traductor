@@ -57,9 +57,9 @@
 
         public static readonly string OP_COMP_REL_START_CHARSET = "<>";
 
-        public static readonly string OP_LOGIC_OR = "||";
+        public static readonly char OP_LOGIC_OR = '|';
 
-        public static readonly string OP_LOGIC_AND = "&&";
+        public static readonly char OP_LOGIC_AND = '&';
 
         public static readonly char OP_LOGIC_NOT = '!';
 

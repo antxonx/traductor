@@ -149,6 +149,26 @@
             return LexType.ASIGNMENT;
         }
 
+        private LexType AcceptOpLogicOr(in char entry)
+        {
+            if (entry.Equals(Symbol.OP_LOGIC_OR))
+            {
+                this.Continue(entry);
+                return LexType.OP_LOGIC_OR;
+            }
+            return LexType.UNDEFINED;
+        }
+
+        private LexType AcceptOpLogicAnd(in char entry)
+        {
+            if (entry.Equals(Symbol.OP_LOGIC_AND))
+            {
+                this.Continue(entry);
+                return LexType.OP_LOGIC_AND;
+            }
+            return LexType.UNDEFINED;
+        }
+
         private LexType Start(in char entry)
         {
             this.symbol = "";
@@ -212,6 +232,14 @@
             else if (entry.Equals(Symbol.END_OF_FILE))
             {
                 return LexType.END_OF_FILE;
+            }
+            else if(entry.Equals(Symbol.OP_LOGIC_OR))
+            {
+                return this.AcceptOpLogicOr(this.Continue(entry));
+            }
+            else if (entry.Equals(Symbol.OP_LOGIC_AND))
+            {
+                return this.AcceptOpLogicAnd(this.Continue(entry));
             }
             else if (entry.Equals(Symbol.SPACE_CHAR))
             {
