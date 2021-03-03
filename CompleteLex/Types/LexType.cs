@@ -72,7 +72,7 @@
 
         public static readonly string[] RES_CONTROL = { "if", "else", "while", "return" };
 
-        public static readonly string STRING_DELIMITER = "\"";
+        public static readonly char STRING_DELIMITER = '\"';
 
         public static readonly string PAIR_PAR_CHARSET = "()";
 
@@ -88,17 +88,19 @@
 
         public static readonly string OP_LOGIC_AND = "&&";
 
-        public static readonly string OP_LOGIC_NOT = "!";
+        public static readonly char OP_LOGIC_NOT = '!';
 
         public static readonly string[] OP_COMP_EQ = { "==", "!=" };
 
-        public static readonly string SEMI_COLON = ";";
+        public static readonly char SEMI_COLON = ';';
 
-        public static readonly string COLON = ",";
+        public static readonly char COLON = ',';
 
-        public static readonly string ASIGNMENT = "=";
+        public static readonly char ASIGNMENT = '=';
 
-        public static readonly string END_OF_FILE = "$";
+        public static readonly char SPACE_CHAR = ' ';
+
+        public static readonly char END_OF_FILE = '$';
 
     }
 

@@ -84,7 +84,27 @@
                 this.Continue(entry);
                 return LexTypeComplex.PAIR_BR[aux];
             }
-            else if (this.GetActualChar().Equals(' '))
+            else if (entry.Equals(Symbol.SEMI_COLON))
+            {
+                this.Continue(entry);
+                return LexType.SEMI_COLON;
+            }
+            else if (entry.Equals(Symbol.COLON))
+            {
+                this.Continue(entry);
+                return LexType.COLON;
+            }
+            else if (entry.Equals(Symbol.ASIGNMENT))
+            {
+                this.Continue(entry);
+                return LexType.ASIGNMENT;
+            }
+            else if (entry.Equals(Symbol.OP_LOGIC_NOT))
+            {
+                this.Continue(entry);
+                return LexType.OP_LOGIC_NOT;
+            }
+            else if (entry.Equals(Symbol.SPACE_CHAR))
             {
                 return this.Start(this.Continue(entry));
             }
