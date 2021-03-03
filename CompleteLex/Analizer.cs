@@ -62,11 +62,11 @@
 
         private LexType AcceptInteger(in char entry)
         {
-            if (Symbol.DIGIT_CHARSET.Contains(this.GetActualChar()))
+            if (Symbol.DIGIT_CHARSET.Contains(entry))
             {
                 return this.AcceptInteger(this.Continue(entry));
             }
-            else if (this.GetActualChar().Equals('.'))
+            else if (entry.Equals('.'))
             {
                 return this.DecimalPoint(this.Continue(entry));
             }
@@ -105,7 +105,7 @@
         }
         private LexType OpCompRelAccept(in char entry)
         {
-            if (Symbol.ASIGNMENT.Equals(entry))
+            if (entry.Equals(Symbol.ASIGNMENT))
             {
                 this.Continue(entry);
             }
@@ -114,7 +114,7 @@
 
         private LexType StringAccept(in char entry)
         {
-            if(Symbol.STRING_DELIMITER.Equals(entry))
+            if(entry.Equals(Symbol.STRING_DELIMITER))
             {
                 this.Continue(entry);
                 return LexType.STRING;
@@ -131,7 +131,7 @@
 
         private LexType AcceptLogicNotOrCompEq(in char entry)
         {
-            if(Symbol.ASIGNMENT.Equals(entry))
+            if (entry.Equals(Symbol.ASIGNMENT))
             {
                 this.Continue(entry);
                 return LexType.OP_COMP_EQ;
@@ -141,7 +141,7 @@
 
         private LexType AcceptAssignmentOrCompEq(in char entry)
         {
-            if (Symbol.ASIGNMENT.Equals(entry))
+            if (entry.Equals(Symbol.ASIGNMENT))
             {
                 this.Continue(entry);
                 return LexType.OP_COMP_EQ;
@@ -178,7 +178,7 @@
                 this.Continue(entry);
                 return LexType.OP_MATH_ADD;
             }
-            else if (Symbol.STRING_DELIMITER.Equals(entry))
+            else if (entry.Equals(Symbol.STRING_DELIMITER))
             {
                 return this.StringAccept(this.Continue(entry));
             }
@@ -208,6 +208,10 @@
             else if (entry.Equals(Symbol.OP_LOGIC_NOT))
             {
                 return this.AcceptLogicNotOrCompEq(this.Continue(entry));
+            }
+            else if (entry.Equals(Symbol.END_OF_FILE))
+            {
+                return LexType.END_OF_FILE;
             }
             else if (entry.Equals(Symbol.SPACE_CHAR))
             {
