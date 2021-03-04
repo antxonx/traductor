@@ -80,5 +80,6 @@
     {
         public static readonly LexType[] PAIR_PAR = { LexType.OPEN_PAR, LexType.CLOSE_PAR };
         public static readonly LexType[] PAIR_BR = { LexType.OPEN_BR, LexType.CLOSE_BR };
+        public static readonly LexType[] RES_CONTROL = { LexType.RES_IF, LexType.RES_ELSE, LexType.RES_WHILE, LexType.RES_RETURN};
     }
 }

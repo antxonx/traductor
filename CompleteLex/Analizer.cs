@@ -1,4 +1,7 @@
-﻿namespace Lexico
+﻿using System;
+using System.Linq;
+
+namespace Lexico
 {
     internal class Analizer
     {
@@ -49,6 +52,7 @@
 
         private LexType AcceptId(in char entry)
         {
+            int aux;
             if (Symbol.DIGIT_CHARSET.Contains(entry))
             {
                 return this.AcceptId(this.Continue(entry));
@@ -56,6 +60,14 @@
             else if (Symbol.TEXT_CHARSET.Contains(entry))
             {
                 return this.AcceptId(this.Continue(entry));
+            }
+            if(Symbol.RES_TYPES.Contains(this.symbol))
+            {
+                return LexType.TYPE;
+            } else  if(Symbol.RES_CONTROL.Contains(this.symbol))
+            {
+                aux = Array.IndexOf(Symbol.RES_CONTROL, this.symbol);
+                return LexTypeComplex.RES_CONTROL[aux];
             }
             return LexType.IDENTIFIER;
         }
