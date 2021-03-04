@@ -231,6 +231,7 @@
             }
             else if (entry.Equals(Symbol.END_OF_FILE))
             {
+                this.Continue(entry);
                 return LexType.END_OF_FILE;
             }
             else if(entry.Equals(Symbol.OP_LOGIC_OR))
