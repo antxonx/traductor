@@ -61,7 +61,6 @@ namespace AnalizadorSintactico1
 
         private static void Process(in LexType lexType, in string symbol, ref Stack stack)
         {
-            Object[] revStack;
             int yPos = int.Parse(stack.Peek().ToString());
             int index = lexType switch
             {
@@ -92,11 +91,7 @@ namespace AnalizadorSintactico1
                 };
                 if(index == (int)ArrayPos.FINISHED)
                 {
-                    revStack = stack.ToArray();
-                    Array.Reverse(revStack);
-                    foreach (Object obj in revStack)
-                        Console.Write("{0}", obj);
-                    Console.WriteLine();
+                    PrintProcess(stack);
                     return;
                 }
                 tableRule = LR[yPos, index];
@@ -107,7 +102,12 @@ namespace AnalizadorSintactico1
             {
                 throw new Exception("2");
             }
-            revStack = stack.ToArray();
+            PrintProcess(stack);
+        }
+
+        static void PrintProcess(in Stack stack)
+        {
+            Object[] revStack = stack.ToArray();
             Array.Reverse(revStack);
             foreach (Object obj in revStack)
                 Console.Write("{0}", obj);
