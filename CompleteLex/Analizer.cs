@@ -228,10 +228,10 @@ namespace Lexico
                 this.Continue(entry);
                 return LexType.SEMI_COLON;
             }
-            else if (entry.Equals(Symbol.COLON))
+            else if (entry.Equals(Symbol.COMMA))
             {
                 this.Continue(entry);
-                return LexType.COLON;
+                return LexType.COMMA;
             }
             else if (entry.Equals(Symbol.ASIGNMENT))
             {

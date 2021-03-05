@@ -18,7 +18,7 @@
         OP_LOGIC_NOT,
         OP_COMP_EQ,
         SEMI_COLON,
-        COLON,
+        COMMA,
         OPEN_PAR,
         CLOSE_PAR,
         OPEN_BR,
@@ -67,7 +67,7 @@
 
         public static readonly char SEMI_COLON = ';';
 
-        public static readonly char COLON = ',';
+        public static readonly char COMMA = ',';
 
         public static readonly char ASIGNMENT = '=';
 
