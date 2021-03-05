@@ -3,7 +3,7 @@
     /// <summary>
     /// tipos de símbolos
     /// </summary>
-    internal enum LexType
+    public enum LexType
     {
         IDENTIFIER,
         INTEGER,

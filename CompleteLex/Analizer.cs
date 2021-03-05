@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Lexico
 {
-    internal class Analizer
+    public class Analizer
     {
         public static readonly char NULL_CHAR = (char)0;
 

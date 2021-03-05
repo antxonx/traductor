@@ -1,4 +1,5 @@
 ﻿using System;
+using Lexico;
 
 namespace AnalizadorSintactico1
 {
@@ -6,7 +7,19 @@ namespace AnalizadorSintactico1
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            LexType lexType;
+            string symbol;
+            int[][] E =
+            {
+
+            };
+            Analizer analizer = new Analizer("a+b$");
+            while (!analizer.IsDone())
+            {
+                lexType = analizer.GetNextType();
+                symbol = analizer.GetRetSymbol();
+                Console.WriteLine($"| {symbol} | {(int)lexType} | {lexType} |");
+            }
         }
     }
 }
