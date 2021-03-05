@@ -25,3 +25,11 @@ El archivo `entry.txt` define los parametros de entrada a ser analizados.
 El resultado esperado:
 
 ![Resultado de ejecutar el analizador léxico](/lexico/res/lexico-min.png)
+
+## 2. Analizador Léxico completo
+
+Se encuentra en la carpeta del proyecto `/CompleteLex`
+
+Identifica correctamente todos los siguinetes símbolos:
+
+![Resultado de la ejecución del analizador léxico](/CompleteLex/res/lexico-min.png)
