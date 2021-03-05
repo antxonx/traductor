@@ -32,6 +32,17 @@ namespace Lexico
             return this.Start(this.GetActualChar());
         }
 
+        public string GetTextLext()
+        {
+            if(this.IsDone())
+            {
+                return "" + Symbol.END_OF_FILE;
+            } else
+            {
+                return this.file[(this.index-1)..];
+            }
+        }
+
         public string GetRetSymbol()
         {
             return this.symbol;

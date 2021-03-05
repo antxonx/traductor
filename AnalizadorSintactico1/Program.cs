@@ -1,12 +1,11 @@
-﻿using System;
+﻿using Lexico;
+using System;
 using System.Collections;
-using Lexico;
 
 namespace AnalizadorSintactico1
 {
-    class Program
+    internal class Program
     {
-
         internal enum ArrayPos
         {
             IDENTIFIER,
@@ -27,7 +26,7 @@ namespace AnalizadorSintactico1
             E1 = 1
         }
 
-        static readonly TABLE_RULES[,] LR = new TABLE_RULES[,]
+        private static readonly TABLE_RULES[,] LR = new TABLE_RULES[,]
             {
                 { TABLE_RULES.D2, TABLE_RULES.BAD, TABLE_RULES.BAD, TABLE_RULES.E1 },
                 { TABLE_RULES.BAD, TABLE_RULES.BAD, TABLE_RULES.ACC, TABLE_RULES.BAD },
@@ -36,22 +35,26 @@ namespace AnalizadorSintactico1
                 { TABLE_RULES.BAD, TABLE_RULES.BAD, TABLE_RULES.R1, TABLE_RULES.BAD }
             };
 
-        static void Main(string[] args)
+        private static void Main(string[] args)
         {
             LexType lexType;
-            string symbol;
+            string symbol, textLeft;
             Stack stack = new Stack();
+            Stack stackBack = new Stack();
             Analizer analizer = new Analizer("a+b$");
             stack.Push(0);
             try
             {
+                //textLeft = analizer.GetTextLext();
+                //PrintProcess(stack, textLeft);
                 while (!analizer.IsDone())
                 {
                     lexType = analizer.GetNextType();
                     symbol = analizer.GetRetSymbol();
-                    Process(lexType, symbol, ref stack);
+                    textLeft = analizer.GetTextLext();
+                    Process(lexType, symbol, textLeft, ref stack, ref stackBack);
                 }
-                Process(LexType.END_OF_FILE, "$", ref stack);
+                Process(LexType.END_OF_FILE, "$", "$", ref stack, ref stackBack);
             }
             catch (Exception e)
             {
@@ -59,7 +62,7 @@ namespace AnalizadorSintactico1
             }
         }
 
-        private static void Process(in LexType lexType, in string symbol, ref Stack stack)
+        private static void Process(in LexType lexType, in string symbol, in string textLeft, ref Stack stack, ref Stack stackBack)
         {
             int yPos = int.Parse(stack.Peek().ToString());
             int index = lexType switch
@@ -71,6 +74,7 @@ namespace AnalizadorSintactico1
             };
             TABLE_RULES tableRule = LR[yPos, index];
             int stackStep = (int)tableRule;
+            stackBack = (Stack)stack.Clone();
             if (stackStep > 0)
             {
                 stack.Push(symbol);
@@ -89,9 +93,9 @@ namespace AnalizadorSintactico1
                     TABLE_RULES.ACC => (int)ArrayPos.FINISHED,
                     _ => throw new Exception("3"),
                 };
-                if(index == (int)ArrayPos.FINISHED)
+                PrintProcess(stackBack, textLeft, tableRule);
+                if (index == (int)ArrayPos.FINISHED)
                 {
-                    PrintProcess(stack);
                     return;
                 }
                 tableRule = LR[yPos, index];
@@ -102,17 +106,38 @@ namespace AnalizadorSintactico1
             {
                 throw new Exception("2");
             }
-            PrintProcess(stack);
+            if(tableRule.ToString()[0] != 'E')
+            {
+                PrintProcess(stackBack, textLeft, tableRule);
+            }
         }
 
-        static void PrintProcess(in Stack stack)
+        private static void PrintProcess(in Stack stack, in string textLeft, in TABLE_RULES tableRule)
         {
             Object[] revStack = stack.ToArray();
+            string stackText = "", ruleExt;
             Array.Reverse(revStack);
             foreach (Object obj in revStack)
-                Console.Write("{0}", obj);
+                stackText += obj;
+            Console.Write($"{stackText,-10}");
+            Console.Write($" | {textLeft, -10}");
+            if(tableRule.ToString()[0].Equals('R'))
+            {
+                switch (tableRule)
+                {
+                    case TABLE_RULES.R1:
+                        ruleExt = tableRule + " E -> <id> + <id>";
+                        break;
+                    default:
+                        throw new Exception("4");
+                }
+                Console.Write($" | {ruleExt,-30} |");
+            } 
+            else
+            {
+                Console.Write($" | {tableRule,-30} |");
+            }
             Console.WriteLine();
         }
-
     }
 }
