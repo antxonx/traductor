@@ -9,7 +9,7 @@ namespace AnalizadorSintactico1
         {
             LexType lexType;
             string symbol;
-            int[][] E =
+            int[][] R1 =
             {
 
             };
