@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Lexico
 {
-    internal class Analizer
+    public class Analizer
     {
         public static readonly char NULL_CHAR = (char)0;
 
@@ -30,6 +30,17 @@ namespace Lexico
         public LexType GetNextType()
         {
             return this.Start(this.GetActualChar());
+        }
+
+        public string GetTextLext()
+        {
+            if(this.IsDone())
+            {
+                return "" + Symbol.END_OF_FILE;
+            } else
+            {
+                return this.file[(this.index-1)..];
+            }
         }
 
         public string GetRetSymbol()
